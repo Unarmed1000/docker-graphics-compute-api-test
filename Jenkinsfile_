@@ -1,0 +1,115 @@
+// Based on 
+// - https://getintodevops.com/blog/building-your-first-docker-image-with-jenkins-2-guide-for-developers
+// - http://fishi.devtail.io/weblog/2016/11/20/docker-build-pipeline-as-code-jenkins/
+node 
+{
+    // some basic config
+    def LTS_IMAGE_TAG = 'dev_lts'
+    def IMAGE_PATH1   = 'master/lts/.'
+    def IMAGE_NAME1   = 'unarmed1000/jenkinsmaster'
+    def IMAGE_PATH2   = 'slave/ubuntu16.04-xenial/.'
+    def IMAGE_NAME2   = 'unarmed1000/jenkinsslave'
+    
+    stage('Build all') 
+    {
+        parallel master: 
+        {
+            node 
+            {
+                def app
+                
+                // Workaround a current issue with docker.withRegistry
+                // https://issues.jenkins-ci.org/browse/JENKINS-38018 
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
+                                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) 
+                {
+                  sh 'docker login -u "$USERNAME" -p "$PASSWORD"'
+                }      
+                
+                stage('Checkout SCM') 
+                {
+                    // Let's make sure we have the repository cloned to our workspace
+                    checkout scm
+                }
+
+                stage('Build image') 
+                {
+                    // This builds the actual image; synonymous to
+                    // docker build on the command line
+
+                    app = docker.build("${IMAGE_NAME1}:${LTS_IMAGE_TAG}", "${IMAGE_PATH1}")
+                }
+
+                stage('Test image') 
+                {
+                    // Ideally, we would run a test framework against our image.
+                    app.inside 
+                    {
+                        sh 'echo "Tests passed"'
+                    }
+                }
+
+                stage('Push image') 
+                {
+                  app.push("${LTS_IMAGE_TAG}_${env.BUILD_NUMBER}")
+                  app.push("${LTS_IMAGE_TAG}")
+                }
+            }        
+        },
+        slave: {
+            node 
+            {
+                def app
+                
+                // Workaround a current issue with docker.withRegistry
+                // https://issues.jenkins-ci.org/browse/JENKINS-38018 
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
+                                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) 
+                {
+                  sh 'docker login -u "$USERNAME" -p "$PASSWORD"'
+                }      
+                
+                stage('Checkout SCM') 
+                {
+                    // Let's make sure we have the repository cloned to our workspace
+                    checkout scm
+                }
+
+                stage('Build image') 
+                {
+                    // This builds the actual image; synonymous to
+                    // docker build on the command line
+
+                    app = docker.build("${IMAGE_NAME2}:${LTS_IMAGE_TAG}", "${IMAGE_PATH2}")
+                }
+
+                stage('Test image') 
+                {
+                    // Ideally, we would run a test framework against our image.
+                    app.inside 
+                    {
+                        sh 'echo "Tests passed"'
+                    }
+                }
+
+                stage('Push image') 
+                {
+                    app.push("${LTS_IMAGE_TAG}_${env.BUILD_NUMBER}")
+                    app.push("${LTS_IMAGE_TAG}")
+                }
+            }        
+        }
+    }
+}
+
+
+// Finally, we'll push the image with two tags:
+// First, the incremental build number from Jenkins
+// Second, the 'latest' tag.
+// Pushing multiple tags is cheap, as all the layers are reused.
+//docker.withRegistry('', 'docker-hub-credentials')
+//{
+//  app.push("${LTS_IMAGE_TAG}_${env.BUILD_NUMBER}")
+//  app.push("${LTS_IMAGE_TAG}")
+//}
+
