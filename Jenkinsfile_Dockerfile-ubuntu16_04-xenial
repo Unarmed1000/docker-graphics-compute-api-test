@@ -1,5 +1,3 @@
-// Based on 
-// - https://github.com/Unarmed1000/DockerJenkinsSlave
 node 
 {
     // some basic config
