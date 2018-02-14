@@ -40,15 +40,6 @@ node
         app = docker.build("${IMAGE_NAME}:${IMAGE_TAG_REV}", "${IMAGE_ARGS}")
     }
 
-    //stage('Test image') 
-    //{
-    //    // Ideally, we would run a test framework against our image.
-    //    app.inside 
-    //    {
-    //        sh 'echo "Tests passed"'
-    //    }
-    //}
-
     stage('Push image') 
     {
         if (PUSH_BUILD_NUMBER)
