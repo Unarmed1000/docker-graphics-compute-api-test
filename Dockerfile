@@ -16,7 +16,6 @@ RUN apt-get update \
         software-properties-common \
         python-software-properties
 
-
 # AMD OpenCL
 COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
 RUN tar xvjf amd-app-sdk.tar.bz2 \
@@ -65,15 +64,8 @@ RUN unzip opencv.zip \
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
-# Install Arm Mali OpenGL ES 3.0 Emulator
-#RUN wget https://armkeil.blob.core.windows.net/developer/Files/downloads/open-gl-es-emulator/3.0.2/Mali_OpenGL_ES_Emulator-v3.0.2.g694a9-Linux-64bit.deb -O MaliOpenGLESEmu.deb
-
-COPY cache/Mali_OpenGL_ES_Emulator-v3.0.2.g694a9-Linux-64bit.deb  MaliOpenGLESEmu.deb
-RUN dpkg -i MaliOpenGLESEmu.deb \
- && rm MaliOpenGLESEmu.deb
-
-ENV LD_LIBRARY_PATH /usr/lib/mali-opengl-es-emulator:$LD_LIBRARY_PATH
-ENV LIBRARY_PATH /usr/lib/mali-opengl-es-emulator:$LIBRARY_PATH
+# Install mesa OpenGL ES Emulator
+RUN apt install -y libgles2-mesa-dev
 
 # Install Vulkan
 #RUN wget https://sdk.lunarg.com/sdk/download/1.0.68.0/linux/vulkansdk-linux-x86_64-1.0.68.0.run?Human=true -O vulkan-sdk.run
