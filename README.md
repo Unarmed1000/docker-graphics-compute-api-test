@@ -1,4 +1,4 @@
-# docker-graphics-compute-api-test
+# docker-graphics-compute-api-test:u14_04-trusty
 
 Graphics and compute development and test images
 
