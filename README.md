@@ -1,4 +1,4 @@
-# docker-graphics-compute-api-test
+# docker-graphics-compute-api-test:u16_04-xenial
 
 Graphics and compute development and test images
 
@@ -26,8 +26,4 @@ Most of them can be fetched automatically with the ```prepCache.sh``` script.
 
 | Name                               | OpenGL ES 2/3                 | OpenCL           | OpenCV | Vulkan   | Ubuntu | GCC  |
 |------------------------------------|-------------------------------|------------------|--------|----------|--------|------|
-| Dockerfile-ubuntu14_04-trusty      | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 14.04  | 4.8+ |
 | Dockerfile-ubuntu16_04-xenial      | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 16.04  | 5.4+ |
-| Dockerfile-ubuntu17_10-artful      | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 17.10  | 7.2+ |
-| Dockerfile-ubuntu16_04-xenial_mesa | libgles2-mesa-dev             | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 16.04  | 5.4+ |
-| Dockerfile-ubuntu17_10-artful_mesa | libgles2-mesa-dev             | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 17.10  | 7.2+ |
