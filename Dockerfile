@@ -7,13 +7,15 @@ RUN apt-get update \
         wget \
         git \
         python3 \
+        python3-pip \
         build-essential \
         libxrandr-dev \
         libdevil-dev \
         libassimp-dev \
         cmake \
-        unzip
-
+        unzip \
+ && pip3 install typing
+        
 # AMD OpenCL
 COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
 RUN tar xvjf amd-app-sdk.tar.bz2 \
