@@ -1,21 +1,20 @@
 FROM ubuntu:14.04
 
 RUN apt-get update \
- && apt-get -y upgrade \
  && apt-get -y install \
-        mc \
-        wget \
-        git \
-        python3 \
-        python3-pip \
         build-essential \
+        cmake \
+        git \
         libxrandr-dev \
         libdevil-dev \
         libassimp-dev \
-        cmake \
+        python3 \
+        python3-pip \
         unzip \
+        wget \
+ && rm -rf /var/lib/apt/lists/*
  && pip3 install typing
-        
+
 # AMD OpenCL
 COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
 RUN tar xvjf amd-app-sdk.tar.bz2 \
@@ -28,21 +27,23 @@ ENV LD_LIBRARY_PATH $AMDAPPSDKROOT/lib/x86_64:$LD_LIBRARY_PATH
 ENV PATH $AMDAPPSDKROOT/bin:$PATH
 
 # OpenCV 3.2 dependencies
-RUN apt install -y \
-        libgtk2.0-dev \
-        pkg-config \
+RUN apt-get update \
+ && apt-get install -y \
         libavcodec-dev \
         libavformat-dev \
-        libswscale-dev \
-        python-dev \
-        python-numpy \
-        libtbb2 \
-        libtbb-dev \
+        libdc1394-22-dev \
+        libgtk2.0-dev \
+        libjasper-dev \
         libjpeg-dev \
         libpng-dev \
+        libtbb-dev \
+        libtbb2 \
         libtiff-dev \
-        libjasper-dev \
-        libdc1394-22-dev
+        libswscale-dev \
+        pkg-config \
+        python-dev \
+        python-numpy \
+ && rm -rf /var/lib/apt/lists/*
 
 # OpenCV 3.2 compilation
 #RUN wget https://github.com/opencv/opencv/archive/3.2.0.zip -O OpenCV.zip
