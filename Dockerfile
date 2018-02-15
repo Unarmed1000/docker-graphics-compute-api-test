@@ -12,7 +12,7 @@ RUN apt-get update \
         python3-pip \
         unzip \
         wget \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
  && pip3 install typing
 
 # AMD OpenCL
