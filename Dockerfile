@@ -5,9 +5,9 @@ RUN apt-get update \
         build-essential \
         cmake \
         git \
-        libxrandr-dev \
-        libdevil-dev \
         libassimp-dev \
+        libdevil-dev \
+        libxrandr-dev \
         python3 \
         python3-pip \
         unzip \
