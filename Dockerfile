@@ -1,20 +1,19 @@
 FROM ubuntu:17.10
 
 RUN apt-get update \
- && apt-get -y upgrade \
  && apt-get -y install \
-        mc \
-        wget \
-        git \
-        python3 \
         build-essential \
-        libxrandr-dev \
-        libdevil-dev \
-        libassimp-dev \
         cmake \
-        unzip \
+        git \
+        libassimp-dev \
+        libdevil-dev \
+        libxrandr-dev \
+        python-software-properties \
+        python3 \
         software-properties-common \
-        python-software-properties
+        unzip \
+        wget \
+ && rm -rf /var/lib/apt/lists/*
 
 # AMD OpenCL
 COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
@@ -30,22 +29,23 @@ ENV PATH $AMDAPPSDKROOT/bin:$PATH
 # OpenCV 3.2 dependencies
 # Since libjasper has been removed in Ubuntu17 we need to add it manually
 RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" \
- && apt update \
- && apt install -y \
-        libgtk2.0-dev \
-        pkg-config \
+ && apt-get update \
+ && apt-get install -y \
         libavcodec-dev \
         libavformat-dev \
-        libswscale-dev \
-        python-dev \
-        python-numpy \
-        libtbb2 \
-        libtbb-dev \
+        libdc1394-22-dev \
+        libgtk2.0-dev \
+        libjasper-dev \
         libjpeg-dev \
         libpng-dev \
+        libtbb-dev \
+        libtbb2 \
         libtiff-dev \
-        libjasper-dev \
-        libdc1394-22-dev
+        libswscale-dev \
+        pkg-config \
+        python-dev \
+        python-numpy \
+ && rm -rf /var/lib/apt/lists/*
 
 # OpenCV 3.2 compilation
 #RUN wget https://github.com/opencv/opencv/archive/3.2.0.zip -O OpenCV.zip
@@ -65,7 +65,9 @@ RUN unzip opencv.zip \
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
 # Install mesa OpenGL ES Emulator
-RUN apt install -y libgles2-mesa-dev
+RUN apt-get update \
+ && apt-get install -y libgles2-mesa-dev \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install Vulkan
 #RUN wget https://sdk.lunarg.com/sdk/download/1.0.68.0/linux/vulkansdk-linux-x86_64-1.0.68.0.run?Human=true -O vulkan-sdk.run
