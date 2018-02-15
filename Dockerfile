@@ -1,20 +1,19 @@
 FROM ubuntu:17.10
 
 RUN apt-get update \
- && apt-get -y upgrade \
  && apt-get -y install \
-        mc \
-        wget \
-        git \
-        python3 \
         build-essential \
-        libxrandr-dev \
-        libdevil-dev \
-        libassimp-dev \
         cmake \
-        unzip \
+        git \
+        libassimp-dev \
+        libdevil-dev \
+        libxrandr-dev \
+        python-software-properties \
+        python3 \
         software-properties-common \
-        python-software-properties
+        unzip \
+        wget \
+ && rm -rf /var/lib/apt/lists/*
 
 
 # AMD OpenCL
@@ -31,22 +30,23 @@ ENV PATH $AMDAPPSDKROOT/bin:$PATH
 # OpenCV 3.2 dependencies
 # Since libjasper has been removed in Ubuntu17 we need to add it manually
 RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" \
- && apt update \
- && apt install -y \
-        libgtk2.0-dev \
-        pkg-config \
+ && apt-get update \
+ && apt-get install -y \
         libavcodec-dev \
         libavformat-dev \
-        libswscale-dev \
-        python-dev \
-        python-numpy \
-        libtbb2 \
-        libtbb-dev \
+        libdc1394-22-dev \
+        libgtk2.0-dev \
+        libjasper-dev \
         libjpeg-dev \
         libpng-dev \
+        libtbb-dev \
+        libtbb2 \
         libtiff-dev \
-        libjasper-dev \
-        libdc1394-22-dev
+        libswscale-dev \
+        pkg-config \
+        python-dev \
+        python-numpy \
+ && rm -rf /var/lib/apt/lists/*
 
 # OpenCV 3.2 compilation
 #RUN wget https://github.com/opencv/opencv/archive/3.2.0.zip -O OpenCV.zip
