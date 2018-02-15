@@ -3,7 +3,7 @@ node
     // some basic config
     def DOCKERHUB_USERNAME = 'NotDefined'
 
-    def IMAGE_TAG         = (env.BRANCH_NAME == 'latest'  ? 'latest' : 'latest-dev')
+    def IMAGE_TAG         = (env.BRANCH_NAME == 'master'  ? 'latest' : 'latest-dev')
 
     def DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE = env.DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE    
 
