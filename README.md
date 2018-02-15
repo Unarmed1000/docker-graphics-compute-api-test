@@ -1,4 +1,4 @@
-# docker-graphics-compute-api-test:u14_04-trusty
+# docker-graphics-compute-api-test:u14_04
 
 Graphics and compute development and test images
 
@@ -24,6 +24,6 @@ Most of them can be fetched automatically with the ```prepCache.sh``` script.
 
 ## Images
 
-| Name                               | OpenGL ES 2/3                 | OpenCL           | OpenCV | Vulkan   | Ubuntu | GCC  |
-|------------------------------------|-------------------------------|------------------|--------|----------|--------|------|
-| Dockerfile-ubuntu14_04-trusty      | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 14.04  | 4.8+ |
+| Name        | OpenGL ES 2/3                 | OpenCL           | OpenCV | Vulkan   | Ubuntu | GCC  |
+|-------------|-------------------------------|------------------|--------|----------|--------|------|
+| u14_04      | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 14.04  | 4.8+ |
