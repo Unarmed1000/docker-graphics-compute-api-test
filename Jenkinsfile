@@ -3,11 +3,11 @@ node
     // some basic config
     def DOCKERHUB_USERNAME = 'NotDefined'
 
-    def IMAGE_TAG         = (env.BRANCH_NAME == 'u17_10-artful_mesa'  ? 'u17_10-artful_mesa' : 'u17_10-dev_mesa')
+    def IMAGE_TAG         = (env.BRANCH_NAME == 'u17_10_mesa'  ? 'u17_10_mesa' : 'u17_10-dev_mesa')
     def IMAGE_TAG_SHORT   = IMAGE_TAG.substring(0,1)
     def IMAGE_TAG_REV     = "${IMAGE_TAG_SHORT}${env.BUILD_NUMBER}"
 
-    def PUSH_BUILD_NUMBER = (env.BRANCH_NAME == 'u17_10-artful_mesa')
+    def PUSH_BUILD_NUMBER = (env.BRANCH_NAME == 'u17_10_mesa')
     def DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE = env.DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE    
 
     def IMAGE_ARGS        = '.'
