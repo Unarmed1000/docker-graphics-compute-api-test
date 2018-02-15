@@ -61,7 +61,9 @@ RUN unzip opencv.zip \
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
 # Install mesa OpenGL ES Emulator
-RUN apt install -y libgles2-mesa-dev
+RUN apt-get update \
+ && apt-get install -y libgles2-mesa-dev \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install Vulkan
 #RUN wget https://sdk.lunarg.com/sdk/download/1.0.68.0/linux/vulkansdk-linux-x86_64-1.0.68.0.run?Human=true -O vulkan-sdk.run
