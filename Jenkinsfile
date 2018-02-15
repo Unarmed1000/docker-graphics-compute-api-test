@@ -4,10 +4,7 @@ node
     def DOCKERHUB_USERNAME = 'NotDefined'
 
     def IMAGE_TAG         = (env.BRANCH_NAME == 'u14_04'  ? 'u14_04' : 'u14_04-dev')
-    def IMAGE_TAG_SHORT   = IMAGE_TAG.substring(0,1)
-    def IMAGE_TAG_REV     = "${IMAGE_TAG_SHORT}${env.BUILD_NUMBER}"
 
-    def PUSH_BUILD_NUMBER = (env.BRANCH_NAME == 'u14_04')
     def DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE = env.DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE    
 
     def IMAGE_ARGS        = '--pull .'
@@ -37,15 +34,11 @@ node
         sh 'cp -r "$DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE" cache'
    
         // This builds the actual image; synonymous to docker build on the command line
-        app = docker.build("${IMAGE_NAME}:${IMAGE_TAG_REV}", "${IMAGE_ARGS}")
+        app = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", "${IMAGE_ARGS}")
     }
 
     stage('Push image') 
     {
-        if (PUSH_BUILD_NUMBER)
-        {
-            app.push("${IMAGE_TAG_REV}")
-        }
         app.push("${IMAGE_TAG}")
     }
 }
