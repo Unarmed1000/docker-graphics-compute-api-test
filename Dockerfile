@@ -9,6 +9,7 @@ RUN apt-get update \
         libdevil-dev \
         libxrandr-dev \
         python3 \
+        software-properties-common \
         unzip \
         wget \
  && add-apt-repository ppa:ubuntu-toolchain-r/test \
@@ -16,7 +17,7 @@ RUN apt-get update \
  && apt-get install -y \
         g++-6 \
         gcc-6 \
- && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 20 --slave /usr/bin/g++ g++ /usr/bin/g++-6
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 20 --slave /usr/bin/g++ g++ /usr/bin/g++-6 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
