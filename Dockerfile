@@ -11,9 +11,16 @@ RUN apt-get update \
         python3 \
         unzip \
         wget \
+ && add-apt-repository ppa:ubuntu-toolchain-r/test \
+ && apt-get update \
+ && apt-get install -y \
+        g++-6 \
+        gcc-6 \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 20 --slave /usr/bin/g++ g++ /usr/bin/g++-6
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# AMD OpenCL
+ # AMD OpenCL
 COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
 RUN tar xvjf amd-app-sdk.tar.bz2 \
  && rm amd-app-sdk.tar.bz2 \

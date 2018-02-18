@@ -1,4 +1,4 @@
-# docker-graphics-compute-api-test:u16_04
+# docker-graphics-compute-api-test:u16_04_gcc6
 
 Graphics and compute development and test images
 
@@ -27,6 +27,7 @@ Most of them can be fetched automatically with the ```prepCache.sh``` script.
 |-------------|-------------------------------|------------------|--------|----------|--------|------|
 | u14_04      | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 14.04  | 4.8+ |
 | u16_04      | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 16.04  | 5.4+ |
+| u16_04_gcc6 | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 16.04  | 6.1+ |
 | u17_10      | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 17.10  | 7.2+ |
 | u16_04_mesa | libgles2-mesa-dev             | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 16.04  | 5.4+ |
 | u17_10_mesa | libgles2-mesa-dev             | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 17.10  | 7.2+ |
