@@ -1,4 +1,5 @@
-node 
+#!/usr/bin/env groovy
+node
 {
     // some basic config
     def DOCKERHUB_USERNAME = 'NotDefined'
