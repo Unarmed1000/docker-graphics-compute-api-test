@@ -32,7 +32,7 @@ node
     stage('Build image') 
     {
         // We copy since symlinking wont work
-        sh 'cp -r "$DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE" cache'
+        sh 'rsync -avv ${DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE}/ cache'
    
         // This builds the actual image; synonymous to docker build on the command line
         app = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", "${IMAGE_ARGS}")
