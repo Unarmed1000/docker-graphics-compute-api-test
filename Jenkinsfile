@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 node
 {
+    properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10']]]);
+
     // some basic config
     def DOCKERHUB_USERNAME = 'NotDefined'
 
