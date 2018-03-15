@@ -70,13 +70,14 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Vulkan
-#RUN wget https://sdk.lunarg.com/sdk/download/1.0.68.0/linux/vulkansdk-linux-x86_64-1.0.68.0.run?Human=true -O vulkan-sdk.run
-COPY cache/vulkansdk-linux-x86_64-1.0.68.0.run vulkan-sdk.run
+ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.1.70.1"
+#RUN wget https://sdk.lunarg.com/sdk/download/${DOCKERIMAGE_VULKAN_SDK_VERSION}/linux/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run?Human=true -O vulkan-sdk.run
+COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run vulkan-sdk.run
 RUN chmod ugo+x vulkan-sdk.run \
  && ./vulkan-sdk.run \
  && rm vulkan-sdk.run
 
-ENV VULKAN_SDK /VulkanSDK/1.0.68.0/x86_64
+ENV VULKAN_SDK /VulkanSDK/${DOCKERIMAGE_VULKAN_SDK_VERSION}/x86_64
 ENV PATH $VULKAN_SDK/bin:$PATH
 ENV LD_LIBRARY_PATH $VULKAN_SDK/lib:$LD_LIBRARY_PATH
 ENV VK_LAYER_PATH $VULKAN_SDK/etc/explicit_layer.d
