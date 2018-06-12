@@ -8,7 +8,6 @@ RUN apt-get update \
         libassimp-dev \
         libdevil-dev \
         libxrandr-dev \
-        python-software-properties \
         python3 \
         software-properties-common \
         unzip \
