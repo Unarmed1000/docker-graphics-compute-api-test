@@ -4,7 +4,7 @@ node
     // some basic config
     def DOCKERHUB_USERNAME = 'NotDefined'
 
-    def IMAGE_TAG         = (env.BRANCH_NAME == 'u18_04'  ? 'u18_04' : 'u18_04-dev')
+    def IMAGE_TAG         = (env.BRANCH_NAME == 'u18_04play'  ? 'u18_04play' : 'u18_04play-dev')
 
     def DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE = env.DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE    
 

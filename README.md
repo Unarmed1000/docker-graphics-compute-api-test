@@ -1,14 +1,25 @@
-# docker-graphics-compute-api-test:u18_04
+# docker-graphics-compute-api-test:u18_04play
 
-Graphics and compute development and test images
+Graphics and compute development and test images with clang, clang-format and clang-tidy. This image is configured to be used as a interactive image.
 
-Builds common Ubuntu images with 
+It's intended to be run like this:
+
+```bash
+docker run --rm --env HOST_UID=$(id -u) --env HOST_GID=$(id -g) -v "$PWD":/playground -w /playground -it docker-graphics-compute-api-test:u18_04play
+```
+
+The ```run.sh``` script in this repository contains the above command.
+
+
+This dockerfile builds a common Ubuntu images with:
+
 * OpenGL ES 2/3 emulation
 * OpenCL
 * OpenCV
 * Vulkan
 
 ## Build requirements
+
 To build these images you will need to populate a local 'cache' directory with some SDK's.
 The cache directory should contain these files before you build.
 
@@ -31,13 +42,14 @@ Most of them can be fetched automatically with the ```prepCache.sh``` script.
 | u18_04      | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 17.10  | 7.3+ |
 | u16_04_mesa | libgles2-mesa-dev             | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 16.04  | 5.4+ |
 | u17_10_mesa | libgles2-mesa-dev             | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 17.10  | 7.2+ |
+| u18_04play  | Mali OpenGL ES Emulator 3.2.0 | AMD-APP-SDK v2.9 | 3.2.0  | 1.0.68.0 | 17.10  | 7.3+ |
 
 ## Important
 
 All images are in their own branches
+
 * [u14_04](https://github.com/Unarmed1000/docker-graphics-compute-api-test/tree/u14_04)
 * [u16_04](https://github.com/Unarmed1000/docker-graphics-compute-api-test/tree/u16_04)
 * [u17_10](https://github.com/Unarmed1000/docker-graphics-compute-api-test/tree/u17_10)
 * [u16_04_mesa](https://github.com/Unarmed1000/docker-graphics-compute-api-test/tree/u16_04_mesa)
 * [u17_10_mesa](https://github.com/Unarmed1000/docker-graphics-compute-api-test/tree/u17_10_mesa)
-

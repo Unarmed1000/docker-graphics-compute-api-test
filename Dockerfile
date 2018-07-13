@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+ENV GOSU_VERSION=1.10
+
 RUN apt-get update \
  && apt-get -y install \
         build-essential \
@@ -75,7 +77,7 @@ ENV LD_LIBRARY_PATH /usr/lib/mali-opengl-es-emulator:$LD_LIBRARY_PATH
 ENV LIBRARY_PATH /usr/lib/mali-opengl-es-emulator:$LIBRARY_PATH
 
 # Install Vulkan
-ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.1.70.1"
+ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.0.68.0"
 #RUN wget https://sdk.lunarg.com/sdk/download/${DOCKERIMAGE_VULKAN_SDK_VERSION}/linux/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run?Human=true -O vulkan-sdk.run
 COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run vulkan-sdk.run
 RUN chmod ugo+x vulkan-sdk.run \
@@ -87,4 +89,38 @@ ENV PATH $VULKAN_SDK/bin:$PATH
 ENV LD_LIBRARY_PATH $VULKAN_SDK/lib:$LD_LIBRARY_PATH
 ENV VK_LAYER_PATH $VULKAN_SDK/etc/explicit_layer.d
 ENV LIBRARY_PATH $VULKAN_SDK/lib:$LIBRARY_PATH
+
+# Prepare GOSU and clang
+RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
+ && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
+ && export GNUPGHOME="$(mktemp -d)" \
+ && ( gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "B42F6819007F00F88E364FD4036A9C25BF357DD4" \
+      || gpg --keyserver pgp.mit.edu --recv-keys "B42F6819007F00F88E364FD4036A9C25BF357DD4" \
+      || gpg --keyserver keyserver.pgp.com --recv-keys "B42F6819007F00F88E364FD4036A9C25BF357DD4" ) \
+ && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
+ && rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc \
+ && chmod +x /usr/local/bin/gosu \
+ && gosu nobody true \
+ && wget https://apt.llvm.org/llvm-snapshot.gpg.key \
+ && apt-key add llvm-snapshot.gpg.key \
+ && apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" \
+ && apt-get update \
+ && apt-get install -y \
+        clang-6.0 \
+        clang-format-6.0 \
+        clang-tidy-6.0 \
+ && rm -rf /var/lib/apt/lists/*
+
+# Prepare the dev user
+ENV HOME /home/dev
+ENV USER=dev USER_ID=9001 USER_GID=9001
+
+RUN groupadd --gid "${USER_GID}" "${USER}" \
+ && useradd -c "developer" -d $HOME -m $USER --uid ${USER_ID} --gid ${USER_GID}
+ 
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD [ "/bin/bash" ]
 
