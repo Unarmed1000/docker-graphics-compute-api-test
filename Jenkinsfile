@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-node
+node('ubuntu')
 {
     properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5']]]);
 
