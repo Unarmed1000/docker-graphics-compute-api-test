@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
-node
+node('ubuntu')
 {
+    properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5']]]);
+
     // some basic config
     def DOCKERHUB_USERNAME = 'NotDefined'
 
