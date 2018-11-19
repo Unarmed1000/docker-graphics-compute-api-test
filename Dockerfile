@@ -78,7 +78,10 @@ ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.1.85.0"
 # && ./vulkan-sdk.run \
 # && rm vulkan-sdk.run
 COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.tar.gz vulkan-sdk.tar.gz
-RUN tar zxf vulkan-sdk.tar.gz \
+RUN mkdir VulkanSDK \
+ && mv vulkan-sdk.tar.gz VulkanSDK \
+ && cd VulkanSDK \
+ && tar zxf vulkan-sdk.tar.gz \
  && rm vulkan-sdk.tar.gz \
  && apt-get install -y \
         cmake \
@@ -88,7 +91,8 @@ RUN tar zxf vulkan-sdk.tar.gz \
         libxcb-dri3-0 \
         libxcb-present0 \
         libxrandr-dev \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && cd ..
 
 #        libglm-dev \
 #        libmirclient-dev \
