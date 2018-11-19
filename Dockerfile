@@ -9,9 +9,11 @@ RUN apt-get update \
         libdevil-dev \
         libxrandr-dev \
         python3 \
+        software-properties-common \
         unzip \
         wget \
  && rm -rf /var/lib/apt/lists/*
+
 
 # AMD OpenCL
 COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
@@ -25,7 +27,9 @@ ENV LD_LIBRARY_PATH $AMDAPPSDKROOT/lib/x86_64:$LD_LIBRARY_PATH
 ENV PATH $AMDAPPSDKROOT/bin:$PATH
 
 # OpenCV 3.2 dependencies
-RUN apt-get update \
+# Since libjasper has been removed in Ubuntu17 we need to add it manually
+RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" \
+ && apt-get update \
  && apt-get install -y \
         libavcodec-dev \
         libavformat-dev \
