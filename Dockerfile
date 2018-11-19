@@ -47,12 +47,11 @@ RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security ma
         python-numpy \
  && rm -rf /var/lib/apt/lists/*
 
-# OpenCV 3.2 compilation
-#RUN wget https://github.com/opencv/opencv/archive/3.2.0.zip -O OpenCV.zip
-COPY cache/opencv-3.2.0.zip opencv.zip
-RUN unzip opencv.zip \
+# OpenCV 3.4.4 compilation
+RUN wget https://github.com/opencv/opencv/archive/3.4.4.zip -O OpenCV.tar.gz
+ && tar -xvzf opencv.tar.gz \
  && rm opencv.zip \
- && cd opencv-3.2.0 \
+ && cd opencv-3.4.4 \
  && mkdir release \
  && cd release \
  && cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. \
@@ -60,7 +59,7 @@ RUN unzip opencv.zip \
  && make install \
  && make clean \
  && cd ../.. \
- && rm -rf opencv-3.2.0
+ && rm -rf opencv-3.4.4
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
