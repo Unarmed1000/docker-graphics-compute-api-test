@@ -1,4 +1,4 @@
-# docker-graphics-compute-api-test:u18_04
+# docker-graphics-compute-api-test
 
 Graphics and compute development and test images
 
