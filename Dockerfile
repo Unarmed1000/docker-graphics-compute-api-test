@@ -4,7 +4,6 @@ RUN apt-get update \
  && apt-get -y install \
         build-essential \
         cmake \
-        gcovr \
         git \
         libassimp-dev \
         libdevil-dev \
