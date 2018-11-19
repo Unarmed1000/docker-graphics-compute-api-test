@@ -48,8 +48,8 @@ RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security ma
  && rm -rf /var/lib/apt/lists/*
 
 # OpenCV 3.4.4 compilation
-RUN wget https://github.com/opencv/opencv/archive/3.4.4.zip -O opencv.tar.gz \
- && tar -xvzf opencv.tar.gz \
+RUN wget https://github.com/opencv/opencv/archive/3.4.4.tar.gz -O opencv.tar.gz \
+ && tar xvzf opencv.tar.gz \
  && rm opencv.tar.gz \
  && cd opencv-3.4.4 \
  && mkdir release \
