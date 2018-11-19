@@ -4,6 +4,7 @@ RUN apt-get update \
  && apt-get -y install \
         build-essential \
         cmake \
+        gcovr \
         git \
         libassimp-dev \
         libdevil-dev \
@@ -14,6 +15,7 @@ RUN apt-get update \
         unzip \
         wget \
  && rm -rf /var/lib/apt/lists/*
+
 
 # AMD OpenCL
 COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
@@ -70,16 +72,34 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Vulkan
-ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.1.70.1"
+ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.1.85.0"
 #RUN wget https://sdk.lunarg.com/sdk/download/${DOCKERIMAGE_VULKAN_SDK_VERSION}/linux/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run?Human=true -O vulkan-sdk.run
-COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run vulkan-sdk.run
-RUN chmod ugo+x vulkan-sdk.run \
- && ./vulkan-sdk.run \
- && rm vulkan-sdk.run
+#COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run vulkan-sdk.run
+#RUN chmod ugo+x vulkan-sdk.run \
+# && ./vulkan-sdk.run \
+# && rm vulkan-sdk.run
+COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.tar.gz vulkan-sdk.tar.gz
+RUN tar zxf vulkan-sdk.tar.gz \
+ && rm vulkan-sdk.tar.gz \
+ && apt-get install -y \
+        cmake \
+        libpciaccess0 \
+        libpng-dev \
+        libx11-dev \
+        libxcb-dri3-0 \
+        libxcb-present0 \
+        libxrandr-dev \
+ && rm -rf /var/lib/apt/lists/*
 
+#        libglm-dev \
+#        libmirclient-dev \
+#        libxcb-ewmh-dev \
+#        libxcb-dri3-dev \
+#        libxcb-keysyms1-dev \
+#        libwayland-dev \
+ 
 ENV VULKAN_SDK /VulkanSDK/${DOCKERIMAGE_VULKAN_SDK_VERSION}/x86_64
 ENV PATH $VULKAN_SDK/bin:$PATH
 ENV LD_LIBRARY_PATH $VULKAN_SDK/lib:$LD_LIBRARY_PATH
 ENV VK_LAYER_PATH $VULKAN_SDK/etc/explicit_layer.d
 ENV LIBRARY_PATH $VULKAN_SDK/lib:$LIBRARY_PATH
-
