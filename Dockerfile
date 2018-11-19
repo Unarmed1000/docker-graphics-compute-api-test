@@ -6,6 +6,7 @@ RUN apt-get update \
         cmake \
         gcovr \
         git \
+        lcov \
         libassimp-dev \
         libdevil-dev \
         libxrandr-dev \
