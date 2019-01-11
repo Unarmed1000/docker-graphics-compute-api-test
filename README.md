@@ -5,8 +5,8 @@ Graphics and compute development and test images
 Builds common Ubuntu images with 
 * OpenGL ES 2/3 emulation
 * OpenCL
-* OpenCV
-* Vulkan
+* OpenCV 3.4
+* Vulkan SDK
 
 ## Build requirements
 To build these images you will need to populate a local 'cache' directory with some SDK's.
