@@ -15,8 +15,8 @@ This dockerfile builds a common Ubuntu images with:
 
 * OpenGL ES 2/3 emulation
 * OpenCL
-* OpenCV
-* Vulkan
+* OpenCV 3.4
+* Vulkan SDK
 
 ## Build requirements
 
