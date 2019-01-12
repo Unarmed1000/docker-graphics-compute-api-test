@@ -56,6 +56,7 @@ RUN unzip opencv.zip \
  && make install \
  && make clean \
  && cd ../.. \
+ && ln -s /usr/local/include/opencv4/opencv2/ /usr/local/include/opencv2
  && rm -rf opencv-4.0.1
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
