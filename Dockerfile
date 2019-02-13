@@ -3,13 +3,11 @@ FROM ubuntu:16.04
 RUN apt-get update \
  && apt-get -y install \
         build-essential \
-        cmake \
         git \
         libassimp-dev \
         libdevil-dev \
         libxrandr-dev \
         python3 \
-        software-properties-common \
         unzip \
         wget \
  && add-apt-repository ppa:ubuntu-toolchain-r/test \
@@ -20,6 +18,12 @@ RUN apt-get update \
  && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 20 --slave /usr/bin/g++ g++ /usr/bin/g++-6 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+# CMake 3.10.2 - Use the same version that comes with Ubuntu 18.04
+RUN wget https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh -O cmake.sh \
+ && mkdir /opt/cmake \
+ && sh cmake.sh --skip-license --prefix=/opt/cmake \
+ && rm cmake.sh \
+ && ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
 
  # AMD OpenCL
 COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
@@ -93,7 +97,6 @@ RUN mkdir VulkanSDK \
  && tar zxf vulkan-sdk.tar.gz \
  && rm vulkan-sdk.tar.gz \
  && apt-get install -y \
-        cmake \
         libpciaccess0 \
         libpng-dev \
         libx11-dev \
