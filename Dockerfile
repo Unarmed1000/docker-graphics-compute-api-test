@@ -12,8 +12,8 @@ RUN apt-get update \
         wget \
  && rm -rf /var/lib/apt/lists/*
 
-# CMake 3.8.2
-RUN wget https://cmake.org/files/v3.8/cmake-3.8.2-Linux-x86_64.sh -O cmake.sh \
+# CMake 3.10.2 - Use the same version that comes with Ubuntu 18.04
+RUN wget https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.sh -O cmake.sh \
  && mkdir /opt/cmake \
  && sh cmake.sh --skip-license --prefix=/opt/cmake \
  && rm cmake.sh \
@@ -91,7 +91,6 @@ RUN mkdir VulkanSDK \
  && tar zxf vulkan-sdk.tar.gz \
  && rm vulkan-sdk.tar.gz \
  && apt-get install -y \
-        cmake \
         libpciaccess0 \
         libpng-dev \
         libx11-dev \
