@@ -15,7 +15,7 @@ RUN apt-get update \
 # CMake 3.8.2
 RUN wget https://cmake.org/files/v3.8/cmake-3.8.2-Linux-x86_64.sh -O cmake.sh \
  && mkdir /opt/cmake \
- && sh cmake.sh --prefix=/opt/cmake \
+ && sh cmake.sh --skip-license --prefix=/opt/cmake \
  && rm cmake.sh \
  && ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
 
