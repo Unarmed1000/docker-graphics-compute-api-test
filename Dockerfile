@@ -8,6 +8,7 @@ RUN apt-get update \
         libdevil-dev \
         libxrandr-dev \
         python3 \
+        software-properties-common \
         unzip \
         wget \
  && add-apt-repository ppa:ubuntu-toolchain-r/test \
