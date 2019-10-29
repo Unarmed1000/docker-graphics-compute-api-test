@@ -10,7 +10,7 @@ node('ubuntu')
 
     def DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE = env.DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE    
 
-    def IMAGE_ARGS        = '--pull .'
+    def IMAGE_ARGS        = '--pull --no-cache .'
     
     // Workaround a current issue with docker.withRegistry
     // https://issues.jenkins-ci.org/browse/JENKINS-38018 
