@@ -1,5 +1,8 @@
 FROM ubuntu:20.04
 
+# set noninteractive installation
+export DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update \
  && apt-get -y install \
         build-essential \
@@ -10,10 +13,13 @@ RUN apt-get update \
         libxrandr-dev \
         python3 \
         software-properties-common \
+        tzdata \
         unzip \
         wget \
  && rm -rf /var/lib/apt/lists/*
 
+ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+dpkg-reconfigure --frontend noninteractive tzdata
 
 # AMD OpenCL
 COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
