@@ -2,6 +2,7 @@ FROM ubuntu:20.04
 
 # set noninteractive installation
 ENV DEBIAN_FRONTEND noninteractive
+ENV TZ=America/New_York
 
 RUN apt-get update \
  && apt-get -y install \
@@ -17,9 +18,6 @@ RUN apt-get update \
         unzip \
         wget \
  && rm -rf /var/lib/apt/lists/*
-
-ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
-dpkg-reconfigure --frontend noninteractive tzdata
 
 # AMD OpenCL
 COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
