@@ -7,6 +7,7 @@ ENV TZ=America/New_York
 RUN apt-get update \
  && apt-get -y install \
         build-essential \
+        clang \
         cmake \
         git \
         libassimp-dev \
