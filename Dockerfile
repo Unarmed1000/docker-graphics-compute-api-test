@@ -10,6 +10,7 @@ RUN apt-get update \
         clang \
         cmake \
         git \
+        lcov \
         libassimp-dev \
         libdevil-dev \
         libxrandr-dev \
@@ -117,3 +118,10 @@ ENV PATH $VULKAN_SDK/bin:$PATH
 ENV LD_LIBRARY_PATH $VULKAN_SDK/lib:$LD_LIBRARY_PATH
 ENV VK_LAYER_PATH $VULKAN_SDK/etc/explicit_layer.d
 ENV LIBRARY_PATH $VULKAN_SDK/lib:$LIBRARY_PATH
+
+RUN wget https://raw.github.com/eriwen/lcov-to-cobertura-xml/master/lcov_cobertura/lcov_cobertura.py \
+ && chmod +x lcov_cobertura.py \
+ && mkdir CUSTOM_TOOLS \
+ && mv lcov_cobertura.py /CUSTOM_TOOLS/lcov_cobertura.py
+
+ENV PATH /CUSTOM_TOOLS:$PATH
