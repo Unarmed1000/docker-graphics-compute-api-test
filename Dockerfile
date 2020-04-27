@@ -9,6 +9,7 @@ RUN apt-get update \
         libassimp-dev \
         libdevil-dev \
         libxrandr-dev \
+        ninja-build \
         python3 \
         software-properties-common \
         unzip \
