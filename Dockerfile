@@ -8,6 +8,9 @@ RUN apt-get update \
  && apt-get -y install \
         build-essential \
         clang \
+        clang-format \
+        clang-tools \
+        clang-tidy \
         cmake \
         git \
         lcov \
