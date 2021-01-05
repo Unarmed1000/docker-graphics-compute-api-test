@@ -50,11 +50,11 @@ RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security ma
  && rm -rf /var/lib/apt/lists/*
 
 # OpenCV 4 compilation
-#RUN wget https://github.com/opencv/opencv/archive/4.0.1.zip -O OpenCV.zip
-COPY cache/opencv-4.0.1.zip opencv.zip
+#RUN wget https://github.com/opencv/opencv/archive/4.2.0.zip -O OpenCV.zip
+COPY cache/opencv-4.2.0.zip opencv.zip
 RUN unzip opencv.zip \
  && rm opencv.zip \
- && cd opencv-4.0.1 \
+ && cd opencv-4.2.0 \
  && mkdir release \
  && cd release \
  && cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. \
@@ -63,7 +63,7 @@ RUN unzip opencv.zip \
  && make clean \
  && cd ../.. \
  && ln -s /usr/local/include/opencv4/opencv2/ /usr/local/include/opencv2 \
- && rm -rf opencv-4.0.1
+ && rm -rf opencv-4.2.0
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
@@ -78,7 +78,7 @@ ENV LD_LIBRARY_PATH /usr/lib/mali-opengl-es-emulator:$LD_LIBRARY_PATH
 ENV LIBRARY_PATH /usr/lib/mali-opengl-es-emulator:$LIBRARY_PATH
 
 # Install Vulkan
-ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.1.92.1"
+ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.2.135.0"
 #RUN wget https://sdk.lunarg.com/sdk/download/${DOCKERIMAGE_VULKAN_SDK_VERSION}/linux/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run?Human=true -O vulkan-sdk.run
 #COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run vulkan-sdk.run
 #RUN chmod ugo+x vulkan-sdk.run \
