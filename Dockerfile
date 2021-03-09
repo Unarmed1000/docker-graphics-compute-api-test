@@ -78,7 +78,7 @@ ENV LD_LIBRARY_PATH /usr/lib/mali-opengl-es-emulator:$LD_LIBRARY_PATH
 ENV LIBRARY_PATH /usr/lib/mali-opengl-es-emulator:$LIBRARY_PATH
 
 # Install Vulkan
-ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.2.135.0"
+ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.2.170.0"
 #RUN wget https://sdk.lunarg.com/sdk/download/${DOCKERIMAGE_VULKAN_SDK_VERSION}/linux/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run?Human=true -O vulkan-sdk.run
 #COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run vulkan-sdk.run
 #RUN chmod ugo+x vulkan-sdk.run \
