@@ -13,6 +13,7 @@ RUN apt-get update \
         clang-tidy \
         cmake \
         git \
+        g++ \
         lcov \
         libassimp-dev \
         libdevil-dev \
@@ -26,33 +27,12 @@ RUN apt-get update \
         wget \
  && rm -rf /var/lib/apt/lists/*
 
-# OpenCV dependencies
-# Since libjasper has been removed in Ubuntu17 we need to add it manually
-RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu hirsute-security main" \
- && apt-get update \
- && apt-get install -y \
-        libavcodec-dev \
-        libavformat-dev \
-        libdc1394-22-dev \
-        libgtk2.0-dev \
-        libjasper-dev \
-        libjpeg-dev \
-        libpng-dev \
-        libtbb-dev \
-        libtbb2 \
-        libtiff-dev \
-        libswscale-dev \
-        pkg-config \
-        python-dev \
-        python-numpy \
- && rm -rf /var/lib/apt/lists/*
-
 # OpenCV 4 compilation
-#RUN wget https://github.com/opencv/opencv/archive/4.2.0.zip -O OpenCV.zip
-COPY cache/opencv-4.2.0.zip opencv.zip
+#RUN wget https://github.com/opencv/opencv/archive/4.5.2.zip -O OpenCV.zip
+COPY cache/opencv-4.5.2.zip opencv.zip
 RUN unzip opencv.zip \
  && rm opencv.zip \
- && cd opencv-4.2.0 \
+ && cd opencv-4.5.2 \
  && mkdir release \
  && cd release \
  && cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. \
@@ -61,7 +41,7 @@ RUN unzip opencv.zip \
  && make clean \
  && cd ../.. \
  && ln -s /usr/local/include/opencv4/opencv2/ /usr/local/include/opencv2 \
- && rm -rf opencv-4.2.0
+ && rm -rf opencv-4.5.2
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
