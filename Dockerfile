@@ -18,23 +18,13 @@ RUN apt-get update \
         libdevil-dev \
         libxrandr-dev \
         ninja-build \
+        ocl-icd-opencl-dev \
         python3 \
         software-properties-common \
         tzdata \
         unzip \
         wget \
  && rm -rf /var/lib/apt/lists/*
-
-# AMD OpenCL
-COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
-RUN tar xvjf amd-app-sdk.tar.bz2 \
- && rm amd-app-sdk.tar.bz2 \
- && (echo 'y' | ./AMD-APP-SDK-v2.9-1.599.381-GA-linux64.sh) \
- && rm AMD-APP-SDK-v2.9-1.599.381-GA-linux64.sh
-
-ENV AMDAPPSDKROOT /opt/AMDAPPSDK-2.9-1
-ENV LD_LIBRARY_PATH $AMDAPPSDKROOT/lib/x86_64:$LD_LIBRARY_PATH
-ENV PATH $AMDAPPSDKROOT/bin:$PATH
 
 # OpenCV dependencies
 # Since libjasper has been removed in Ubuntu17 we need to add it manually
