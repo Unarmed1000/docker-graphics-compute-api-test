@@ -28,7 +28,7 @@ RUN apt-get update \
 
 # OpenCV dependencies
 # Since libjasper has been removed in Ubuntu17 we need to add it manually
-RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" \
+RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu hirsute-security main" \
  && apt-get update \
  && apt-get install -y \
         libavcodec-dev \
