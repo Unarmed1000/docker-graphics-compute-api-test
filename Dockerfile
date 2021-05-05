@@ -21,11 +21,14 @@ RUN apt-get update \
         ninja-build \
         ocl-icd-opencl-dev \
         python3 \
-        python3-distutils \
         software-properties-common \
         tzdata \
         unzip \
         wget \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get -y install \
+        libpng-dev \
  && rm -rf /var/lib/apt/lists/*
 
 # OpenCV 4 compilation
