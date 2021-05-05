@@ -27,11 +27,6 @@ RUN apt-get update \
         wget \
  && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update \
- && apt-get -y install \
-        libpng-dev \
- && rm -rf /var/lib/apt/lists/*
-
 # OpenCV 4 compilation
 #RUN wget https://github.com/opencv/opencv/archive/4.5.2.zip -O OpenCV.zip
 COPY cache/opencv-4.5.2.zip opencv.zip
@@ -68,6 +63,7 @@ RUN mkdir VulkanSDK \
  && cd VulkanSDK \
  && tar zxf vulkan-sdk.tar.gz \
  && rm vulkan-sdk.tar.gz \
+ && apt-get update \
  && apt-get install -y \
         cmake \
         libpciaccess0 \
