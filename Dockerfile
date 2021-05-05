@@ -15,6 +15,7 @@ RUN apt-get update \
         libdevil-dev \
         libxrandr-dev \
         ninja-build \
+        ocl-icd-opencl-dev \
         python3 \
         software-properties-common \
         unzip \
