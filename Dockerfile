@@ -21,6 +21,7 @@ RUN apt-get update \
         ninja-build \
         ocl-icd-opencl-dev \
         python3 \
+        python3-distutils \
         software-properties-common \
         tzdata \
         unzip \
