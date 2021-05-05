@@ -3,66 +3,40 @@ FROM ubuntu:18.04
 RUN apt-get update \
  && apt-get -y install \
         build-essential \
+        clang \
+        clang-format \
+        clang-tools \
+        clang-tidy \
         cmake \
         git \
+        g++ \
+        lcov \
         libassimp-dev \
         libdevil-dev \
         libxrandr-dev \
         ninja-build \
+        ocl-icd-opencl-dev \
         python3 \
         software-properties-common \
         unzip \
         wget \
  && rm -rf /var/lib/apt/lists/*
 
-
-# AMD OpenCL
-COPY cache/AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2 amd-app-sdk.tar.bz2
-RUN tar xvjf amd-app-sdk.tar.bz2 \
- && rm amd-app-sdk.tar.bz2 \
- && (echo 'y' | ./AMD-APP-SDK-v2.9-1.599.381-GA-linux64.sh) \
- && rm AMD-APP-SDK-v2.9-1.599.381-GA-linux64.sh
-
-ENV AMDAPPSDKROOT /opt/AMDAPPSDK-2.9-1
-ENV LD_LIBRARY_PATH $AMDAPPSDKROOT/lib/x86_64:$LD_LIBRARY_PATH
-ENV PATH $AMDAPPSDKROOT/bin:$PATH
-
-# OpenCV dependencies
-# Since libjasper has been removed in Ubuntu17 we need to add it manually
-RUN add-apt-repository "deb http://security.ubuntu.com/ubuntu xenial-security main" \
- && apt-get update \
- && apt-get install -y \
-        libavcodec-dev \
-        libavformat-dev \
-        libdc1394-22-dev \
-        libgtk2.0-dev \
-        libjasper-dev \
-        libjpeg-dev \
-        libpng-dev \
-        libtbb-dev \
-        libtbb2 \
-        libtiff-dev \
-        libswscale-dev \
-        pkg-config \
-        python-dev \
-        python-numpy \
- && rm -rf /var/lib/apt/lists/*
-
 # OpenCV 4 compilation
-#RUN wget https://github.com/opencv/opencv/archive/4.0.1.zip -O OpenCV.zip
-COPY cache/opencv-4.0.1.zip opencv.zip
+#RUN wget https://github.com/opencv/opencv/archive/4.5.2.zip -O OpenCV.zip
+COPY cache/opencv-4.5.2.zip opencv.zip
 RUN unzip opencv.zip \
  && rm opencv.zip \
- && cd opencv-4.0.1 \
+ && cd opencv-4.5.2 \
  && mkdir release \
  && cd release \
- && cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. \
- && make -j $(nproc)\
- && make install \
- && make clean \
+ && cmake -GNinja -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. \
+ && ninja -j $(nproc)\
+ && ninja install \
+ && ninja clean \
  && cd ../.. \
  && ln -s /usr/local/include/opencv4/opencv2/ /usr/local/include/opencv2 \
- && rm -rf opencv-4.0.1
+ && rm -rf opencv-4.5.2
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
@@ -72,7 +46,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Vulkan
-ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.1.92.1"
+ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.2.135.0"
 #RUN wget https://sdk.lunarg.com/sdk/download/${DOCKERIMAGE_VULKAN_SDK_VERSION}/linux/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run?Human=true -O vulkan-sdk.run
 #COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run vulkan-sdk.run
 #RUN chmod ugo+x vulkan-sdk.run \
@@ -84,6 +58,7 @@ RUN mkdir VulkanSDK \
  && cd VulkanSDK \
  && tar zxf vulkan-sdk.tar.gz \
  && rm vulkan-sdk.tar.gz \
+ && apt-get update \
  && apt-get install -y \
         cmake \
         libpciaccess0 \
