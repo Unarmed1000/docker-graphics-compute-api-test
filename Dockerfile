@@ -35,10 +35,10 @@ RUN unzip opencv.zip \
  && cd opencv-4.5.2 \
  && mkdir release \
  && cd release \
- && cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. \
- && make -j $(nproc)\
- && make install \
- && make clean \
+ && cmake -GNinja -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. \
+ && ninja -j $(nproc)\
+ && ninja install \
+ && ninja clean \
  && cd ../.. \
  && ln -s /usr/local/include/opencv4/opencv2/ /usr/local/include/opencv2 \
  && rm -rf opencv-4.5.2
