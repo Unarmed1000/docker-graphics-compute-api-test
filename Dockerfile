@@ -27,7 +27,8 @@ RUN apt-get update \
         wget \
  && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get -y install \
+RUN apt-get update \
+ && apt-get -y install \
         libpng-dev \
  && rm -rf /var/lib/apt/lists/*
 
