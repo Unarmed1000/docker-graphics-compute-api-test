@@ -28,11 +28,11 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # OpenCV 4 compilation
-#RUN wget https://github.com/opencv/opencv/archive/4.5.2.zip -O OpenCV.zip
-COPY cache/opencv-4.5.2.zip opencv.zip
+#RUN wget https://github.com/opencv/opencv/archive/4.5.3.zip -O OpenCV.zip
+COPY cache/opencv-4.5.3.zip opencv.zip
 RUN unzip opencv.zip \
  && rm opencv.zip \
- && cd opencv-4.5.2 \
+ && cd opencv-4.5.3 \
  && mkdir release \
  && cd release \
  && cmake -GNinja -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. \
@@ -41,7 +41,7 @@ RUN unzip opencv.zip \
  && ninja clean \
  && cd ../.. \
  && ln -s /usr/local/include/opencv4/opencv2/ /usr/local/include/opencv2 \
- && rm -rf opencv-4.5.2
+ && rm -rf opencv-4.5.3
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
