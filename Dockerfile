@@ -27,6 +27,16 @@ RUN apt-get update \
         wget \
  && rm -rf /var/lib/apt/lists/*
 
+# Install gcc-11 as default, we do this early so that the OpenCV compile will use it
+RUN apt-get update \
+ && apt-get -y install \
+        gcc-11 \
+        g++-11 \ 
+        gcc-11-base \
+ && rm -rf /var/lib/apt/lists/* \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 \
+ && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100
+
 # OpenCV 4 compilation
 #RUN wget https://github.com/opencv/opencv/archive/4.5.2.zip -O OpenCV.zip
 COPY cache/opencv-4.5.2.zip opencv.zip
