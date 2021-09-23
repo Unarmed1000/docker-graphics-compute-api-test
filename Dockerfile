@@ -1,4 +1,4 @@
-FROM ubuntu:21.04
+FROM ubuntu:21.10
 
 # set noninteractive installation
 ENV DEBIAN_FRONTEND noninteractive
