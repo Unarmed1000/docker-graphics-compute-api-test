@@ -103,14 +103,4 @@ RUN wget https://raw.github.com/eriwen/lcov-to-cobertura-xml/master/lcov_cobertu
  && mkdir CUSTOM_TOOLS \
  && mv lcov_cobertura.py /CUSTOM_TOOLS/lcov_cobertura.py
 
-# Install gcc-11 as default
-RUN apt-get update \
- && apt-get -y install \
-        gcc-11 \
-        g++-11 \ 
-        gcc-11-base \
- && rm -rf /var/lib/apt/lists/* \
- && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 \
- && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100
-
 ENV PATH /CUSTOM_TOOLS:$PATH
