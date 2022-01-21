@@ -4,6 +4,7 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=America/New_York
 
+# Python2 is installed because we need it for a coverage report
 RUN apt-get update \
  && apt-get -y install \
         build-essential \
@@ -19,6 +20,7 @@ RUN apt-get update \
         libdevil-dev \
         libxrandr-dev \
         ninja-build \
+        python2 \
         python3 \
         software-properties-common \
         tzdata \
