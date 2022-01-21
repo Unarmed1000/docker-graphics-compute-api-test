@@ -20,8 +20,8 @@ RUN apt-get update \
         libdevil-dev \
         libxrandr-dev \
         ninja-build \
-        python2 \
         python3 \
+        python3-distutils \
         software-properties-common \
         tzdata \
         unzip \
