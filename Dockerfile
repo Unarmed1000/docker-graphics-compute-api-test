@@ -6,6 +6,15 @@ ARG OPENCV_VERSION=4.12.0
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=America/New_York
 
+# Remove 'ubuntu' user and group if they exist
+RUN set -eux; \
+    if getent passwd ubuntu > /dev/null; then \
+        userdel -r ubuntu || true; \
+    fi; \
+    if getent group ubuntu > /dev/null; then \
+        groupdel ubuntu || true; \
+    fi
+
 RUN apt-get update \
  && apt-get -y install \
         build-essential \
