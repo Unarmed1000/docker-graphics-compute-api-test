@@ -1,4 +1,4 @@
-FROM ubuntu:24.04-slim
+FROM ubuntu:24.04
 
 ARG OPENCV_VERSION=4.12.0
 
@@ -96,3 +96,8 @@ RUN wget https://raw.github.com/eriwen/lcov-to-cobertura-xml/master/lcov_cobertu
  && mv lcov_cobertura.py /CUSTOM_TOOLS/lcov_cobertura.py
 
 ENV PATH /CUSTOM_TOOLS:$PATH
+
+USER root
+
+# Set default command to bash
+CMD ["bash"]
