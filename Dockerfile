@@ -96,3 +96,6 @@ RUN wget https://raw.github.com/eriwen/lcov-to-cobertura-xml/master/lcov_cobertu
  && mv lcov_cobertura.py /CUSTOM_TOOLS/lcov_cobertura.py
 
 ENV PATH /CUSTOM_TOOLS:$PATH
+
+RUN mkdir -p /PersistentCache \
+ && chmod 777 /PersistentCache
