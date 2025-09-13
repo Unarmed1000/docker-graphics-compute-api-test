@@ -1,5 +1,7 @@
 FROM ubuntu:24.04
 
+ARG OPENCV_VERSION=4.12.0
+
 # set noninteractive installation
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=America/New_York
@@ -28,11 +30,11 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # OpenCV 4 compilation
-#RUN wget https://github.com/opencv/opencv/archive/4.5.3.zip -O OpenCV.zip
-COPY cache/opencv-4.5.3.zip opencv.zip
+#RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip -O OpenCV.zip
+COPY cache/opencv-$OPENCV_VERSION.zip opencv.zip
 RUN unzip opencv.zip \
  && rm opencv.zip \
- && cd opencv-4.5.3 \
+ && cd opencv-$OPENCV_VERSION \
  && mkdir release \
  && cd release \
  && cmake -GNinja -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. \
@@ -41,7 +43,7 @@ RUN unzip opencv.zip \
  && ninja clean \
  && cd ../.. \
  && ln -s /usr/local/include/opencv4/opencv2/ /usr/local/include/opencv2 \
- && rm -rf opencv-4.5.3
+ && rm -rf opencv-$OPENCV_VERSION
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
