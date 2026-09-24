@@ -5,19 +5,17 @@ Graphics and compute development and test images
 Builds common Ubuntu images with 
 * OpenGL ES 2/3 emulation
 * OpenCL
-* OpenCV 4.0
+* OpenCV 5.0
 * Vulkan SDK
 
 ## Build requirements
-To build these images you will need to populate a local 'cache' directory with some SDK's.
+To build these images you will need to populate a local 'cache' directory.
 The cache directory should contain these files before you build.
 
-* [AMD-APP-SDK-linux-v2.9-1.599.381-GA-x64.tar.bz2](https://developer.amd.com/amd-accelerated-parallel-processing-app-sdk/)
-* [Mali_OpenGL_ES_Emulator-v3.0.2.g694a9-Linux-64bit.deb](https://developer.arm.com/products/software-development-tools/graphics-development-tools/opengl-es-emulator/downloads)
-* [opencv-3.2.0.zip](https://opencv.org/releases.html)
-* [vulkansdk-linux-x86_64-1.0.68.0.run](https://vulkan.lunarg.com/sdk/home#linux)
+* [opencv-5.0.0.zip](https://github.com/opencv/opencv/archive/5.0.0.zip)
 
-Most of them can be fetched automatically with the ```prepCache.sh``` script.
+They can be fetched automatically with the ```prepCache.sh``` script.
+The Vulkan SDK is downloaded during the image build.
 
 **Please make sure you comply with their licenses before using them.**
 

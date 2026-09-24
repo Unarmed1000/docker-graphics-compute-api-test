@@ -1,6 +1,6 @@
 FROM ubuntu:26.04
 
-ARG OPENCV_VERSION=4.12.0
+ARG OPENCV_VERSION=5.0.0
 
 # set noninteractive installation
 ENV DEBIAN_FRONTEND noninteractive
@@ -35,7 +35,7 @@ RUN apt-get update \
  && python3.14 --version | grep -E '^Python 3\.14\.' \
  && rm -rf /var/lib/apt/lists/*
 
-# OpenCV 4 compilation
+# OpenCV compilation
 #RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip -O OpenCV.zip
 COPY cache/opencv-$OPENCV_VERSION.zip opencv.zip
 RUN unzip opencv.zip \
@@ -48,7 +48,7 @@ RUN unzip opencv.zip \
  && ninja install \
  && ninja clean \
  && cd ../.. \
- && ln -s /usr/local/include/opencv4/opencv2/ /usr/local/include/opencv2 \
+ && ln -s /usr/local/include/opencv5/opencv2/ /usr/local/include/opencv2 \
  && rm -rf opencv-$OPENCV_VERSION
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
