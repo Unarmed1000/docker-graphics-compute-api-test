@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 ARG OPENCV_VERSION=4.12.0
 
@@ -29,9 +29,8 @@ RUN apt-get update \
         wget \
  && rm -rf /var/lib/apt/lists/*
 
-# Install the requested Python version without replacing Ubuntu's system Python.
-RUN add-apt-repository -y ppa:deadsnakes/ppa \
- && apt-get update \
+# Ubuntu 26.04 ships Python 3.14 as its system Python, so no PPA is needed.
+RUN apt-get update \
  && apt-get -y install python3.14 \
  && python3.14 --version | grep -E '^Python 3\.14\.' \
  && rm -rf /var/lib/apt/lists/*
