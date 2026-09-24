@@ -10,9 +10,7 @@ RUN apt-get update \
  && apt-get -y install \
         build-essential \
         clang \
-        clang-format \
         clang-tools \
-        clang-tidy \
         cmake \
         git \
         g++ \
@@ -28,6 +26,24 @@ RUN apt-get update \
         unzip \
         wget \
  && rm -rf /var/lib/apt/lists/*
+
+# clang-format and clang-tidy from apt.llvm.org, since Ubuntu 26.04 only ships up to LLVM 22.
+# The unversioned names are linked in /usr/local/bin so they resolve to this version.
+ARG LLVM_TOOLS_VERSION=23
+RUN . /etc/os-release \
+ && mkdir -p /etc/apt/keyrings \
+ && wget -qO /etc/apt/keyrings/apt.llvm.org.asc https://apt.llvm.org/llvm-snapshot.gpg.key \
+ && echo "deb [signed-by=/etc/apt/keyrings/apt.llvm.org.asc] https://apt.llvm.org/${VERSION_CODENAME}/ llvm-toolchain-${VERSION_CODENAME}-${LLVM_TOOLS_VERSION} main" > /etc/apt/sources.list.d/llvm-toolchain.list \
+ && apt-get update \
+ && apt-get -y install \
+        clang-format-${LLVM_TOOLS_VERSION} \
+        clang-tidy-${LLVM_TOOLS_VERSION} \
+ && rm -rf /var/lib/apt/lists/* \
+ && for tool in clang-format git-clang-format clang-tidy run-clang-tidy clang-apply-replacements; do \
+        test -x /usr/bin/$tool-${LLVM_TOOLS_VERSION} && ln -sf /usr/bin/$tool-${LLVM_TOOLS_VERSION} /usr/local/bin/$tool || exit 1; \
+    done \
+ && clang-format --version | grep -E "version ${LLVM_TOOLS_VERSION}\." \
+ && clang-tidy --version | grep -E "version ${LLVM_TOOLS_VERSION}\."
 
 # Ubuntu 26.04 ships Python 3.14 as its system Python, so no PPA is needed.
 RUN apt-get update \
