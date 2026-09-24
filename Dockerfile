@@ -54,16 +54,20 @@ RUN unzip opencv.zip \
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
-# Install mesa OpenGL ES Emulator
+# Install OpenGL ES / EGL using Mesa (libgles2-mesa-dev is only a transitional package for libgles-dev)
 RUN apt-get update \
- && apt-get install -y libgles2-mesa-dev \
+ && apt-get install -y \
+        libegl-dev \
+        libegl-mesa0 \
+        libgl1-mesa-dri \
+        libgles-dev \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Vulkan
 # Keep the version in sync with VULKAN_SDK_VERSION in the DemoFramework GitHub CI (.github/workflows/ci.yml).
 # Vulkan headers older than 1.3 define VK_NULL_HANDLE as 0 in C++ which breaks RapidVulkan 1.4.x (std::exchange(handle, VK_NULL_HANDLE)).
-ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.4.357.0"
-ARG DOCKERIMAGE_VULKAN_SDK_SHA256="0f09bf6a0625e346bf004be70b92907e934a4c76606b323441b2baf3a5a0e66d"
+ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.4.357.1"
+ARG DOCKERIMAGE_VULKAN_SDK_SHA256="4b41e3b30e8aedaa5dac7c136561ab463eb316a25a54e2c6245f2c299ea1fb85"
 RUN apt-get update \
  && apt-get install -y \
         cmake \
