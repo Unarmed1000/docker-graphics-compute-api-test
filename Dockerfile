@@ -53,19 +53,11 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Install Vulkan
-ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.2.135.0"
-#RUN wget https://sdk.lunarg.com/sdk/download/${DOCKERIMAGE_VULKAN_SDK_VERSION}/linux/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run?Human=true -O vulkan-sdk.run
-#COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.run vulkan-sdk.run
-#RUN chmod ugo+x vulkan-sdk.run \
-# && ./vulkan-sdk.run \
-# && rm vulkan-sdk.run
-COPY cache/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.tar.gz vulkan-sdk.tar.gz
-RUN mkdir VulkanSDK \
- && mv vulkan-sdk.tar.gz VulkanSDK \
- && cd VulkanSDK \
- && tar zxf vulkan-sdk.tar.gz \
- && rm vulkan-sdk.tar.gz \
- && apt-get update \
+# Keep the version in sync with VULKAN_SDK_VERSION in the DemoFramework GitHub CI (.github/workflows/ci.yml).
+# Vulkan headers older than 1.3 define VK_NULL_HANDLE as 0 in C++ which breaks RapidVulkan 1.4.x (std::exchange(handle, VK_NULL_HANDLE)).
+ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.4.357.0"
+ARG DOCKERIMAGE_VULKAN_SDK_SHA256="0f09bf6a0625e346bf004be70b92907e934a4c76606b323441b2baf3a5a0e66d"
+RUN apt-get update \
  && apt-get install -y \
         cmake \
         libpciaccess0 \
@@ -74,8 +66,14 @@ RUN mkdir VulkanSDK \
         libxcb-dri3-0 \
         libxcb-present0 \
         libxrandr-dev \
+        xz-utils \
  && rm -rf /var/lib/apt/lists/* \
- && cd ..
+ && wget -q https://sdk.lunarg.com/sdk/download/${DOCKERIMAGE_VULKAN_SDK_VERSION}/linux/vulkansdk-linux-x86_64-${DOCKERIMAGE_VULKAN_SDK_VERSION}.tar.xz -O vulkan-sdk.tar.xz \
+ && echo "${DOCKERIMAGE_VULKAN_SDK_SHA256}  vulkan-sdk.tar.xz" | sha256sum -c - \
+ && mkdir VulkanSDK \
+ && tar xJf vulkan-sdk.tar.xz -C VulkanSDK \
+ && rm vulkan-sdk.tar.xz \
+ && test -f /VulkanSDK/${DOCKERIMAGE_VULKAN_SDK_VERSION}/x86_64/include/vulkan/vulkan_core.h
 
 #        libglm-dev \
 #        libmirclient-dev \
