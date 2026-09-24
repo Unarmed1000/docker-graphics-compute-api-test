@@ -1,6 +1,29 @@
-FROM ubuntu:26.04
+# syntax=docker/dockerfile:1
 
 ARG OPENCV_VERSION=5.0.0
+
+# OpenCV is compiled in its own stage so it builds in parallel with the main image,
+# and the source zip (bind mounted, not copied) never ends up in an image layer.
+# With only the build tools installed, OpenCV uses its bundled 3rd party libraries.
+FROM ubuntu:26.04 AS opencv-build
+ARG OPENCV_VERSION
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+ && apt-get -y install \
+        build-essential \
+        cmake \
+        ninja-build \
+        python3 \
+        unzip \
+ && rm -rf /var/lib/apt/lists/*
+RUN --mount=type=bind,source=cache/opencv-${OPENCV_VERSION}.zip,target=/tmp/opencv.zip \
+    unzip -q /tmp/opencv.zip -d /tmp \
+ && cmake -S /tmp/opencv-${OPENCV_VERSION} -B /tmp/opencv-release -GNinja -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local \
+ && ninja -C /tmp/opencv-release -j $(nproc) \
+ && DESTDIR=/opencv-install ninja -C /tmp/opencv-release install \
+ && ln -s /usr/local/include/opencv5/opencv2/ /opencv-install/usr/local/include/opencv2
+
+FROM ubuntu:26.04
 
 # set noninteractive installation
 ENV DEBIAN_FRONTEND noninteractive
@@ -51,21 +74,8 @@ RUN apt-get update \
  && python3.14 --version | grep -E '^Python 3\.14\.' \
  && rm -rf /var/lib/apt/lists/*
 
-# OpenCV compilation
-#RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip -O OpenCV.zip
-COPY cache/opencv-$OPENCV_VERSION.zip opencv.zip
-RUN unzip opencv.zip \
- && rm opencv.zip \
- && cd opencv-$OPENCV_VERSION \
- && mkdir release \
- && cd release \
- && cmake -GNinja -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local .. \
- && ninja -j $(nproc)\
- && ninja install \
- && ninja clean \
- && cd ../.. \
- && ln -s /usr/local/include/opencv5/opencv2/ /usr/local/include/opencv2 \
- && rm -rf opencv-$OPENCV_VERSION
+# OpenCV (built in the opencv-build stage)
+COPY --from=opencv-build /opencv-install/usr/local/ /usr/local/
 
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
