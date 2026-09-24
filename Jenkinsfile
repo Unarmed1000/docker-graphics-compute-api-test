@@ -36,6 +36,9 @@ node('ubuntu')
         // We copy since symlinking wont work
         sh 'rsync -avv ${DOCKERAPITESTUBUNTU_PATH_READONLY_CACHE}/ cache'
 
+        // Download anything the read-only cache is missing (e.g. after a version bump)
+        sh 'bash prepCache.sh'
+
         // This builds the actual image; synonymous to docker build on the command line
         app = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", "${IMAGE_ARGS}")
     }
