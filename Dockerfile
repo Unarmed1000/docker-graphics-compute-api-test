@@ -29,6 +29,13 @@ RUN apt-get update \
         wget \
  && rm -rf /var/lib/apt/lists/*
 
+# Install the requested Python version without replacing Ubuntu's system Python.
+RUN add-apt-repository -y ppa:deadsnakes/ppa \
+ && apt-get update \
+ && apt-get -y install python3.14 \
+ && python3.14 --version | grep -E '^Python 3\.14\.' \
+ && rm -rf /var/lib/apt/lists/*
+
 # OpenCV 4 compilation
 #RUN wget https://github.com/opencv/opencv/archive/$OPENCV_VERSION.zip -O OpenCV.zip
 COPY cache/opencv-$OPENCV_VERSION.zip opencv.zip
