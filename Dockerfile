@@ -43,6 +43,7 @@ RUN apt-get update \
         libxrandr-dev \
         ninja-build \
         ocl-icd-opencl-dev \
+        pkgconf \
         python3 \
         software-properties-common \
         tzdata \
@@ -109,7 +110,9 @@ RUN apt-get update \
  && mkdir VulkanSDK \
  && tar xJf vulkan-sdk.tar.xz -C VulkanSDK \
  && rm vulkan-sdk.tar.xz \
- && test -f /VulkanSDK/${DOCKERIMAGE_VULKAN_SDK_VERSION}/x86_64/include/vulkan/vulkan_core.h
+ && test -f /VulkanSDK/${DOCKERIMAGE_VULKAN_SDK_VERSION}/x86_64/include/vulkan/vulkan_core.h \
+ && test -f /VulkanSDK/${DOCKERIMAGE_VULKAN_SDK_VERSION}/x86_64/lib/VulkanLoader/lib/libvulkan.so \
+ && test -d /VulkanSDK/${DOCKERIMAGE_VULKAN_SDK_VERSION}/x86_64/share/vulkan/explicit_layer.d
 
 #        libglm-dev \
 #        libmirclient-dev \
@@ -118,11 +121,15 @@ RUN apt-get update \
 #        libxcb-keysyms1-dev \
 #        libwayland-dev \
  
+# Mirrors the SDK's setup-env.sh (with --set-dep-ld): the Vulkan loader lives in lib/VulkanLoader,
+# so it has to be on CMAKE_PREFIX_PATH for cmake's FindVulkan to locate libvulkan.so.
 ENV VULKAN_SDK /VulkanSDK/${DOCKERIMAGE_VULKAN_SDK_VERSION}/x86_64
 ENV PATH $VULKAN_SDK/bin:$PATH
-ENV LD_LIBRARY_PATH $VULKAN_SDK/lib:$LD_LIBRARY_PATH
-ENV VK_LAYER_PATH $VULKAN_SDK/etc/explicit_layer.d
-ENV LIBRARY_PATH $VULKAN_SDK/lib:$LIBRARY_PATH
+ENV LD_LIBRARY_PATH $VULKAN_SDK/lib/VulkanLoader/lib:$VULKAN_SDK/lib:$LD_LIBRARY_PATH
+ENV LIBRARY_PATH $VULKAN_SDK/lib/VulkanLoader/lib:$VULKAN_SDK/lib:$LIBRARY_PATH
+ENV CMAKE_PREFIX_PATH $VULKAN_SDK:$VULKAN_SDK/lib/VulkanLoader
+ENV PKG_CONFIG_PATH $VULKAN_SDK/lib/VulkanLoader/lib/pkgconfig:$VULKAN_SDK/share/pkgconfig:$VULKAN_SDK/lib/pkgconfig
+ENV VK_ADD_LAYER_PATH $VULKAN_SDK/share/vulkan/explicit_layer.d
 
 RUN wget https://raw.github.com/eriwen/lcov-to-cobertura-xml/master/lcov_cobertura/lcov_cobertura.py \
  && chmod +x lcov_cobertura.py \
