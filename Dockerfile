@@ -92,8 +92,8 @@ RUN apt-get update \
 # Install Vulkan
 # Keep the version in sync with VULKAN_SDK_VERSION in the DemoFramework GitHub CI (.github/workflows/ci.yml).
 # Vulkan headers older than 1.3 define VK_NULL_HANDLE as 0 in C++ which breaks RapidVulkan 1.4.x (std::exchange(handle, VK_NULL_HANDLE)).
-ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.4.357.1"
-ARG DOCKERIMAGE_VULKAN_SDK_SHA256="4b41e3b30e8aedaa5dac7c136561ab463eb316a25a54e2c6245f2c299ea1fb85"
+ENV DOCKERIMAGE_VULKAN_SDK_VERSION="1.4.363.0"
+ARG DOCKERIMAGE_VULKAN_SDK_SHA256="197962f5cbf80baf2775a03336a01cee7c8745686c65aaa70d3f751ade4d7e43"
 RUN apt-get update \
  && apt-get install -y \
         cmake \
