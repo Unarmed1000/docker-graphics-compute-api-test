@@ -40,6 +40,7 @@ RUN apt-get update \
         lcov \
         libassimp-dev \
         libdevil-dev \
+        libxpresent-dev \
         libxrandr-dev \
         ninja-build \
         ocl-icd-opencl-dev \
